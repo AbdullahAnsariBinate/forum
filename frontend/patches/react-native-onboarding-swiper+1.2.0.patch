@@ -1,0 +1,215 @@
+diff --git a/node_modules/react-native-onboarding-swiper/.DS_Store b/node_modules/react-native-onboarding-swiper/.DS_Store
+new file mode 100644
+index 0000000..d0425ae
+Binary files /dev/null and b/node_modules/react-native-onboarding-swiper/.DS_Store differ
+diff --git a/node_modules/react-native-onboarding-swiper/src/.DS_Store b/node_modules/react-native-onboarding-swiper/src/.DS_Store
+new file mode 100644
+index 0000000..49b54e8
+Binary files /dev/null and b/node_modules/react-native-onboarding-swiper/src/.DS_Store differ
+diff --git a/node_modules/react-native-onboarding-swiper/src/Dot.js b/node_modules/react-native-onboarding-swiper/src/Dot.js
+index 55566aa..39d2f70 100644
+--- a/node_modules/react-native-onboarding-swiper/src/Dot.js
++++ b/node_modules/react-native-onboarding-swiper/src/Dot.js
+@@ -5,15 +5,17 @@ import PropTypes from 'prop-types';
+ const Dot = ({ isLight, selected }) => {
+   let backgroundColor;
+   if (isLight) {
+-    backgroundColor = selected ? 'rgba(0, 0, 0, 0.8)' : 'rgba(0, 0, 0, 0.3)';
++    backgroundColor = selected ? '#090D5B' : '#ffff';
+   } else {
+-    backgroundColor = selected ? '#fff' : 'rgba(255, 255, 255, 0.5)';
++    backgroundColor = selected ? '#090D5B' : '#ffff';
+   }
+   return (
+     <View
+       style={{
+         ...styles.dot,
+         backgroundColor,
++        borderWidth: selected ? 1:1,
++        borderColor:selected ? "#090D5B" : '#10B5FA'
+       }}
+     />
+   );
+@@ -26,9 +28,9 @@ Dot.propTypes = {
+ 
+ const styles = {
+   dot: {
+-    width: 6,
+-    height: 6,
+-    borderRadius: 3,
++    width: 11,
++    height: 11,
++    borderRadius: 11,
+     marginHorizontal: 3,
+   },
+ };
+diff --git a/node_modules/react-native-onboarding-swiper/src/Pagination.js b/node_modules/react-native-onboarding-swiper/src/Pagination.js
+index 0e44fd8..c3b8a7c 100755
+--- a/node_modules/react-native-onboarding-swiper/src/Pagination.js
++++ b/node_modules/react-native-onboarding-swiper/src/Pagination.js
+@@ -73,12 +73,12 @@ const Pagination = ({
+   return (
+     <View
+       style={{
+-        height: bottomBarHeight,
+-        backgroundColor: bottomBarColor,
+-        ...styles.container,
++        // height: bottomBarHeight,
++        // backgroundColor: bottomBarColor,
++        // ...styles.container,
+       }}
+     >
+-      <View style={styles.buttonLeft}>{SkipButtonFinal}</View>
++      {/* <View style={styles.buttonLeft}>{SkipButtonFinal}</View> */}
+       <Dots
+         isLight={isLight}
+         numPages={numPages}
+@@ -86,10 +86,10 @@ const Pagination = ({
+         Dot={DotComponent}
+         style={styles.dots}
+       />
+-      <View style={styles.buttonRight}>
++      {/* <View style={styles.buttonRight}>
+         {NextButtonFinal}
+         {DoneButtonFinal}
+-      </View>
++      </View> */}
+     </View>
+   );
+ };
+@@ -127,6 +127,7 @@ const styles = {
+     flexDirection: 'row',
+     justifyContent: 'space-between',
+     alignItems: 'center',
++   backgroundColor:'blue',
+   },
+   buttonLeft: {
+     width: 200,
+diff --git a/node_modules/react-native-onboarding-swiper/src/index.js b/node_modules/react-native-onboarding-swiper/src/index.js
+index ad23272..98677aa 100755
+--- a/node_modules/react-native-onboarding-swiper/src/index.js
++++ b/node_modules/react-native-onboarding-swiper/src/index.js
+@@ -6,6 +6,8 @@ import {
+   StatusBar,
+   SafeAreaView,
+   View,
++  TouchableOpacity,
++  Text,
+ } from 'react-native';
+ 
+ import PropTypes from 'prop-types';
+@@ -18,7 +20,8 @@ import Dot from './Dot';
+ import SkipButton from './buttons/SkipButton';
+ import NextButton from './buttons/NextButton';
+ import DoneButton from './buttons/DoneButton';
+-
++import Dots from 'react-native-onboarding-swiper/src/Dots';
++const {height, width} = Dimensions.get('window')
+ // hotfix: https://github.com/facebook/react-native/issues/16710
+ const itemVisibleHotfix = { itemVisiblePercentThreshold: 100 };
+ 
+@@ -140,6 +143,7 @@ class Onboarding extends Component {
+       DotComponent,
+       flatlistProps,
+       skipToPage,
++      numPages
+     } = this.props;
+     const currentPage = pages[this.state.currentPage];
+     const currentBackgroundColor = currentPage.backgroundColor;
+@@ -185,6 +189,11 @@ class Onboarding extends Component {
+         style={{ flex: 1, backgroundColor, justifyContent: 'center' }}
+       >
+         {controlStatusBar && <StatusBar barStyle={barStyle} />}
++        <View style={styles?.topBtn}>
++          <TouchableOpacity style={styles?.topButton} onPress={this.goNext}>
++            <Text style={styles?.topButtonText}>Skip</Text>
++          </TouchableOpacity>
++        </View>
+         <FlatList
+           ref={(list) => {
+             this.flatList = list;
+@@ -203,7 +212,30 @@ class Onboarding extends Component {
+           }
+           {...flatlistProps}
+         />
+-        {showPagination && (
++        <View style={styles?.dotComponents}>
++       <Pagination
++              isLight={isLight}
++              // bottomBarHeight={bottomBarHeight}
++              // bottomBarColor={bottomBarColor}
++              // showSkip={showSkip}
++              // showNext={showNext}
++              // showDone={showDone}
++              numPages={pages.length}
++              currentPage={this.state.currentPage}
++              // controlStatusBar={controlStatusBar}
++              onSkip={skipFun}
++              onDone={onDone}
++              onNext={this.goNext}
++              skipLabel={skipLabel}
++              nextLabel={nextLabel}
++              allowFontScaling={allowFontScalingButtons}
++              // SkipButtonComponent={SkipButtonComponent}
++              // DoneButtonComponent={DoneButtonComponent}
++              // NextButtonComponent={NextButtonComponent}
++              DotComponent={DotComponent}
++            /> 
++        </View>
++        {/* {showPagination && (
+           <SafeAreaView style={bottomBarHighlight ? styles.overlay : {}}>
+             <Pagination
+               isLight={isLight}
+@@ -227,7 +259,10 @@ class Onboarding extends Component {
+               DotComponent={DotComponent}
+             />
+           </SafeAreaView>
+-        )}
++        )} */}
++        <TouchableOpacity style={styles?.bottomButton} onPress={this.goNext}>
++          <Text style={styles?.btnText}>Next</Text>
++        </TouchableOpacity>
+       </Animated.View>
+     );
+   }
+@@ -314,6 +349,40 @@ const styles = {
+   overlay: {
+     backgroundColor: 'rgba(0, 0, 0, 0.1)',
+   },
++  bottomButton:{
++    backgroundColor:'#10B5FA',
++    paddingVertical:20,
++    marginHorizontal:20,
++    borderRadius:30, 
++    alignItems:'center'
++  },
++  btnText:{
++    color:'#ffff',
++    fontSize:16
++  },
++  topButton:{
++    paddingHorizontal:20,
++    paddingVertical:10,
++    width:80, 
++    borderRadius:20,
++  },
++  topButtonText:{
++    fontSize:16,
++    fontWeight:'800', 
++  },
++  topBtn:{
++    paddingTop:30,
++    justifyContent:'flex-end',
++    alignItems:'flex-end'
++    
++  },
++  dotComponents:{
++  bottom:height*0.09,
++  left:20
++  },
++  dots: {
++    flex: 1,
++  },
+ };
+ 
+ export default Onboarding;

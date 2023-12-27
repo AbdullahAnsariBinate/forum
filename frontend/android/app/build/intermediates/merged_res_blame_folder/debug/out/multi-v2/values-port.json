@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.celectstudio.leaderdash.app-mergeDebugResources-43:/values-port/values-port.xml",
+            "map": [
+                {
+                    "source": "/Users/abdullahansari/.gradle/caches/transforms-3/6c1b0c2b235a71ecd1fda86419002ae8/transformed/appcompat-1.6.1/res/values-port/values-port.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "55",
+                        "endOffsets": "106"
+                    }
+                }
+            ]
+        }
+    ]
+}

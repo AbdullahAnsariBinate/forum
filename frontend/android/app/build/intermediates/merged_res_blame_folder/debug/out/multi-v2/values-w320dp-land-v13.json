@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.celectstudio.leaderdash.app-mergeDebugResources-43:/values-w320dp-land-v13/values-w320dp-land-v13.xml",
+            "map": [
+                {
+                    "source": "/Users/abdullahansari/.gradle/caches/transforms-3/db379a9573965653d073beadbcedb5db/transformed/material-1.9.0/res/values-w320dp-land-v13/values-w320dp-land-v13.xml",
+                    "from": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,110",
+                        "endColumns": "54,61",
+                        "endOffsets": "105,167"
+                    }
+                }
+            ]
+        }
+    ]
+}
